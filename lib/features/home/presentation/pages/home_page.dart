@@ -10,6 +10,17 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(),
+        child: ListView.builder(itemBuilder: (context, index) {
+          return Card(
+            child: ListTile(
+              title: Text("data"),
+            ),
+          );
+        }),
+      ),
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:app_ecommencer/features/app/presentation/pages/app_page.dart';
+import 'package:app_ecommencer/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:app_ecommencer/features/auth/presentation/pages/auth_page.dart';
 import 'package:app_ecommencer/features/home/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,8 @@ class AppRoutes {
   static const home = '/home';
   static const auth = '/auth';
 
-  static GoRouter configRoute() => GoRouter(
-        initialLocation: home,
+  static GoRouter configRoute(AuthStatus status) => GoRouter(
+        initialLocation: app,
         routes: [
           GoRoute(
             path: app,
@@ -18,6 +19,11 @@ class AppRoutes {
               state.pageKey,
               AppPage(),
             ),
+            redirect: (context, state) => switch (status) {
+              AuthStatus.authenticated => home,
+              AuthStatus.unauthenticated => auth,
+              _ => app,
+            },
           ),
           GoRoute(
             path: home,
