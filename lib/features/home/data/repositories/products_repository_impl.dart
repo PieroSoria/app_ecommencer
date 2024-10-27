@@ -17,7 +17,7 @@ class ProductsRepositoryImpl implements ProductsRepository {
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
     description TEXT,
-    precio REAL,
+    precio TEXT,
     imagen BLOB,
     created_at TEXT
   )
@@ -32,7 +32,14 @@ class ProductsRepositoryImpl implements ProductsRepository {
   Future<ProductsModel?> addProducts({required ProductsModel product}) async {
     final mydb = await initialSqflite();
     try {
-      final data = await mydb.insert('productos', product.toJson());
+      final modelmodi = {
+        'name': product.name,
+        'description': product.description,
+        'precio': product.precio.toString(),
+        'imagen': product.imagen,
+        'created_at': product.createdAt!.toIso8601String(),
+      };
+      final data = await mydb.insert('productos', modelmodi);
       if (data > 0) {
         return product;
       } else {

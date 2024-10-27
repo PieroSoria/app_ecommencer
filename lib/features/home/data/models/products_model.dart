@@ -16,7 +16,9 @@ class ProductsModel extends Products {
       description: json['description'],
       precio: json['precio'],
       imagen: json['imagen'],
-      createdAt: json['created_at'],
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'])
+          : null,
     );
   }
 

@@ -1,10 +1,10 @@
 class Products {
-  final int id;
-  final String name;
-  final String description;
-  final double precio;
+  final int? id;
+  final String? name;
+  final String? description;
+  final double? precio;
   final dynamic imagen;
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   Products({
     required this.id,

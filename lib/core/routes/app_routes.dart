@@ -2,12 +2,14 @@ import 'package:app_ecommencer/features/app/presentation/pages/app_page.dart';
 import 'package:app_ecommencer/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:app_ecommencer/features/auth/presentation/pages/auth_page.dart';
 import 'package:app_ecommencer/features/home/presentation/pages/home_page.dart';
+import 'package:app_ecommencer/features/home/presentation/pages/register_producto.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRoutes {
   static const app = '/';
   static const home = '/home';
+  static const addproducto = 'addproduct';
   static const auth = '/auth';
 
   static GoRouter configRoute(AuthStatus status) => GoRouter(
@@ -31,6 +33,16 @@ class AppRoutes {
               state.pageKey,
               HomePage(),
             ),
+            routes: [
+              GoRoute(
+                path: addproducto,
+                name: addproducto,
+                pageBuilder: (context, state) => _materialView(
+                  state.pageKey,
+                  const RegisterProducto(),
+                ),
+              ),
+            ],
           ),
           GoRoute(
             path: auth,

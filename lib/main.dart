@@ -1,5 +1,6 @@
 import 'package:app_ecommencer/core/routes/app_routes.dart';
 import 'package:app_ecommencer/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:app_ecommencer/features/home/presentation/bloc/home_bloc.dart';
 import 'package:app_ecommencer/injector_dependency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,9 @@ class BlocPorviders extends StatelessWidget {
         BlocProvider<AuthBloc>(
           create: (context) => sl()..add(AuthEvent.ongetAuthVerify()),
         ),
+        BlocProvider<HomeBloc>(
+          create: (context) => sl(),
+        ),
       ],
       child: const MyApp(),
     );
@@ -35,6 +39,7 @@ class MyApp extends StatelessWidget {
       builder: (context, state) {
         return MaterialApp.router(
           title: 'App Ecommencer',
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
