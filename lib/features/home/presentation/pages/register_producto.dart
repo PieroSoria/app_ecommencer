@@ -66,7 +66,7 @@ class _RegisterProductoState extends State<RegisterProducto> {
                 onPressed: () {
                   if (_formkey.currentState!.validate()) {
                     final product = ProductsModel(
-                      id: 0,
+                      id: null,
                       name: homebloc.nameproduct.text,
                       description: homebloc.descriptionproduct.text,
                       precio: double.parse(homebloc.precioproduct.text),

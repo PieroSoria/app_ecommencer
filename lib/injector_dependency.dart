@@ -4,6 +4,7 @@ import 'package:app_ecommencer/features/home/data/repositories/products_reposito
 import 'package:app_ecommencer/features/home/domain/repositories/products_repository.dart';
 import 'package:app_ecommencer/features/home/domain/usecases/add_producto_usecase.dart';
 import 'package:app_ecommencer/features/home/domain/usecases/get_list_product_usecase.dart';
+import 'package:app_ecommencer/features/home/domain/usecases/update_producto_usecase.dart';
 import 'package:app_ecommencer/features/home/presentation/bloc/home_bloc.dart';
 import 'package:get_it/get_it.dart';
 
@@ -26,6 +27,11 @@ Future<void> injectorDependency() async {
       productsRepository: sl(),
     ),
   );
+  sl.registerLazySingleton<UpdateProductoUsecase>(
+    () => UpdateProductoUsecase(
+      productsRepository: sl(),
+    ),
+  );
 
   //bloc
   sl.registerFactory<AppBloc>(
@@ -36,6 +42,7 @@ Future<void> injectorDependency() async {
   );
   sl.registerFactory<HomeBloc>(
     () => HomeBloc(
+      sl(),
       sl(),
       sl(),
     ),

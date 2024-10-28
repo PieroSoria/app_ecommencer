@@ -22,11 +22,8 @@ class _InputCustomState extends State<InputCustom> {
   final focusnode = FocusNode();
   @override
   void initState() {
-    widget.controller.addListener(() {
-      if (!focusnode.hasFocus) {
-        focusnode.unfocus();
-      }
-    });
+   
+
     super.initState();
   }
 

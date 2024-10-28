@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app_ecommencer/features/home/data/models/products_model.dart';
 import 'package:app_ecommencer/features/home/domain/usecases/add_producto_usecase.dart';
 import 'package:app_ecommencer/features/home/domain/usecases/get_list_product_usecase.dart';
+import 'package:app_ecommencer/features/home/domain/usecases/update_producto_usecase.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +14,15 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetListProductUsecase getListProductUsecase;
   final AddProductoUsecase addProductoUsecase;
-  HomeBloc(this.getListProductUsecase, this.addProductoUsecase)
-      : super(HomeState.initialState()) {
+  final UpdateProductoUsecase updateProductoUsecase;
+  HomeBloc(
+    this.getListProductUsecase,
+    this.addProductoUsecase,
+    this.updateProductoUsecase,
+  ) : super(HomeState.initialState()) {
     on<_OnGetlistProduct>(_ongetlistProduct);
     on<_OnAddProducto>(_onAddProduct);
+    on<_OnUpdateProduct>(_onUpdateProduct);
   }
 
   void _ongetlistProduct(
@@ -37,6 +43,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       precioproduct.clear();
       final list = await getListProductUsecase();
       emit(state.copyWith(listproduct: list));
+    }
+  }
+
+  void cleantextEdit() {
+    nameproduct.clear();
+    descriptionproduct.clear();
+    precioproduct.clear();
+  }
+
+  void _onUpdateProduct(
+    _OnUpdateProduct event,
+    Emitter<HomeState> emit,
+  ) async {
+    final update = await updateProductoUsecase();
+    if (update != null) {
+      final data = await getListProductUsecase();
+      emit(state.copyWith(listproduct: data));
     }
   }
 }

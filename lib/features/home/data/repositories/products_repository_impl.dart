@@ -98,10 +98,16 @@ class ProductsRepositoryImpl implements ProductsRepository {
   Future<ProductsModel?> updateProducts(
       {required ProductsModel product}) async {
     final mydb = await initialSqflite();
+
     try {
+      final mode = {
+        'name': product.name.toString(),
+        'description': product.description.toString(),
+        'precio': product.precio.toString(),
+      };
       final data = await mydb.update(
         'productos',
-        product.toJson(),
+        mode,
         where: 'id = ?',
         whereArgs: [product.id],
       );

@@ -38,7 +38,25 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {},
                     title: Text(data.name.toString()),
                     subtitle: Text(data.description.toString()),
-                    trailing: Text(data.precio.toString()),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            context.goNamed(
+                              AppRoutes.editproducto,
+                              extra: data.toJson(),
+                            );
+                          },
+                          icon: Icon(Icons.edit),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.delete),
+                        ),
+                        
+                      ],
+                    ),
                   ),
                 );
               },
