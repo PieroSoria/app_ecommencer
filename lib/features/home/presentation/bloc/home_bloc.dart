@@ -56,7 +56,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _OnUpdateProduct event,
     Emitter<HomeState> emit,
   ) async {
-    final update = await updateProductoUsecase();
+    final update = await updateProductoUsecase(params: event.productsModel);
     if (update != null) {
       final data = await getListProductUsecase();
       emit(state.copyWith(listproduct: data));
