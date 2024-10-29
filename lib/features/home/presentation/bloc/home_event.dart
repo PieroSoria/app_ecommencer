@@ -60,7 +60,7 @@ class _OnAddProducto implements HomeEvent {
 
   @override
   // TODO: implement props
-  List<Object> get props => throw UnimplementedError();
+  List<Object?> get props => [productsModel];
 
   @override
   // TODO: implement stringify

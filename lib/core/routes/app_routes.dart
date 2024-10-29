@@ -56,6 +56,7 @@ class AppRoutes {
                   state.pageKey,
                   const RegisterProducto(),
                 ),
+                
               ),
               GoRoute(
                 path: editproducto,

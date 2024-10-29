@@ -47,7 +47,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       nameproduct.clear();
       descriptionproduct.clear();
       precioproduct.clear();
-      emit(state.copyWith(productStatus: ProductStatus.addproduct));
+      
+      emit(state.copyWith(
+          productStatus: ProductStatus.addproduct, ));
     }
   }
 

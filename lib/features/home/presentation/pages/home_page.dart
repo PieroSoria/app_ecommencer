@@ -24,64 +24,32 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final homebloc = context.read<HomeBloc>();
-    homebloc.add(HomeEvent.onGetlistProduct());
+    // homebloc.add(HomeEvent.onGetlistProduct());
     return BlocListener<HomeBloc, HomeState>(
+      bloc: homebloc,
+      // listenWhen: (previous, current) =>
+      //     previous.productStatus != current.productStatus &&
+      //     (current.saveProduct || current.editproduct || current.deleteproduct),
       listener: (context, state) {
-        if (state.saveProduct) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Container(
-                  child: Column(
-                    children: [
-                      Text("Message"),
-                      Text("El producto fue cargado")
-                    ],
-                  ),
-                ),
-              ),
-            );
-          homebloc.add(HomeEvent.onGetlistProduct());
-        }
-        if (state.editproduct) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Container(
-                  child: Column(
-                    children: [
-                      Text("Message"),
-                      Text("El producto fue editado")
-                    ],
-                  ),
-                ),
-              ),
-            );
-          homebloc.add(HomeEvent.onGetlistProduct());
-        }
+        // debugPrint("hola ${state.productStatus}");
+
         if (state.deleteproduct) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              SnackBar(
-                content: Container(
-                  child: Column(
-                    children: [
-                      Text("Message"),
-                      Text("El producto fue eliminado")
-                    ],
-                  ),
-                ),
+              const SnackBar(
+                content: Text("El producto fue eliminado"),
               ),
             );
+        } else if (state.productStatus == ProductStatus.none) {
           homebloc.add(HomeEvent.onGetlistProduct());
         }
+
+        // homebloc.add(HomeEvent.onGetlistProduct());
       },
       child: Scaffold(
         body: Container(
-          decoration: BoxDecoration(),
+          decoration: const BoxDecoration(),
           child: BlocBuilder<HomeBloc, HomeState>(
             bloc: homebloc,
             builder: (context, state) {
@@ -104,7 +72,7 @@ class _HomePageState extends State<HomePage> {
                                 extra: data.toJson(),
                               );
                             },
-                            icon: Icon(Icons.edit),
+                            icon: const Icon(Icons.edit),
                           ),
                           IconButton(
                             onPressed: () {
@@ -112,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                                 HomeEvent.onDeleteProduct(id: data.id),
                               );
                             },
-                            icon: Icon(Icons.delete),
+                            icon: const Icon(Icons.delete),
                           ),
                         ],
                       ),
@@ -132,7 +100,7 @@ class _HomePageState extends State<HomePage> {
             //   ),
             // );
           },
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
         ),
       ),
     );

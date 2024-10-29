@@ -61,31 +61,58 @@ class _UpdateProductoState extends State<UpdateProducto> {
       onPopInvokedWithResult: (didPop, result) {
         context.read<HomeBloc>().cleantextEdit();
       },
-      child: Scaffold(
-        body: Container(
-          decoration: BoxDecoration(),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              InputCustom(
-                controller: homebloc.nameproduct,
-                title: "el nombre del producto",
-              ),
-              InputCustom(
-                controller: homebloc.descriptionproduct,
-                title: "el nombre del producto",
-              ),
-              InputCustom(
-                controller: homebloc.precioproduct,
-                title: "el nombre del producto",
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                child: Text(
-                  "Actualizar Datos",
+      child: BlocListener<HomeBloc, HomeState>(
+        listener: (context, state) {
+          if (state.editproduct) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                const SnackBar(
+                  content: Text("El producto fue editado"),
                 ),
-              )
-            ],
+              );
+          }
+        },
+        child: Scaffold(
+          body: Container(
+            decoration: BoxDecoration(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InputCustom(
+                  controller: homebloc.nameproduct,
+                  title: "el nombre del producto",
+                ),
+                InputCustom(
+                  controller: homebloc.descriptionproduct,
+                  title: "el nombre del producto",
+                ),
+                InputCustom(
+                  controller: homebloc.precioproduct,
+                  title: "el nombre del producto",
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    homebloc.add(
+                      HomeEvent.onUpdatedProduct(
+                        productmodel: ProductsModel(
+                          id: widget.data['id'],
+                          name: homebloc.nameproduct.text,
+                          description: homebloc.descriptionproduct.text,
+                          precio: double.tryParse(homebloc.precioproduct.text),
+                          createdAt: null,
+                          imagen: null,
+                        ),
+                      ),
+                    );
+                    context.pop();
+                  },
+                  child: Text(
+                    "Actualizar Datos",
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
