@@ -26,6 +26,32 @@ class _UpdateProductoState extends State<UpdateProducto> {
     super.initState();
   }
 
+  Future<bool?> _showBannerConfirmed() async {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return Container(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Text("Si"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Text("no"),
+                  )
+                ],
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final homebloc = context.read<HomeBloc>();
@@ -54,21 +80,7 @@ class _UpdateProductoState extends State<UpdateProducto> {
                 title: "el nombre del producto",
               ),
               ElevatedButton(
-                onPressed: () {
-                  homebloc.add(
-                    HomeEvent.onUpdatedProduct(
-                      productmodel: ProductsModel(
-                        id: int.parse(widget.data['id'].toString()),
-                        name: homebloc.nameproduct.text,
-                        description: homebloc.descriptionproduct.text,
-                        precio: double.parse(homebloc.precioproduct.text),
-                        imagen: null,
-                        createdAt: null,
-                      ),
-                    ),
-                  );
-                  context.pop();
-                },
+                onPressed: () {},
                 child: Text(
                   "Actualizar Datos",
                 ),

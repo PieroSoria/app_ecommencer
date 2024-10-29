@@ -22,66 +22,71 @@ class _RegisterProductoState extends State<RegisterProducto> {
   @override
   Widget build(BuildContext context) {
     final homebloc = context.read<HomeBloc>();
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(),
-        child: Form(
-          key: _formkey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              InputCustom(
-                controller: homebloc.nameproduct,
-                title: 'Nombre de Producto',
-                validator: (value) {
-                  if (value != null && value.isEmpty) {
-                    return "No puede ser vacio";
-                  }
-                  return null;
-                },
-              ),
-              InputCustom(
-                controller: homebloc.descriptionproduct,
-                title: 'Descripcion de producto',
-                validator: (value) {
-                  if (value != null && value.isEmpty) {
-                    return "No puede ser vacio";
-                  }
-                  return null;
-                },
-              ),
-              InputCustom(
-                controller: homebloc.precioproduct,
-                title: 'Precio del Producto',
-                validator: (value) {
-                  if (value != null && value.isEmpty) {
-                    return "No puede ser vacio";
-                  }
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        body: Container(
+          decoration: BoxDecoration(),
+          child: Form(
+            key: _formkey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InputCustom(
+                  controller: homebloc.nameproduct,
+                  title: 'Nombre de Producto',
+                  validator: (value) {
+                    if (value != null && value.isEmpty) {
+                      return "No puede ser vacio";
+                    }
+                    return null;
+                  },
+                ),
+                InputCustom(
+                  controller: homebloc.descriptionproduct,
+                  title: 'Descripcion de producto',
+                  validator: (value) {
+                    if (value != null && value.isEmpty) {
+                      return "No puede ser vacio";
+                    }
+                    return null;
+                  },
+                ),
+                InputCustom(
+                  controller: homebloc.precioproduct,
+                  title: 'Precio del Producto',
+                  validator: (value) {
+                    if (value != null && value.isEmpty) {
+                      return "No puede ser vacio";
+                    }
 
-                  return null;
-                },
-                keyboardType: TextInputType.number,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formkey.currentState!.validate()) {
-                    final product = ProductsModel(
-                      id: null,
-                      name: homebloc.nameproduct.text,
-                      description: homebloc.descriptionproduct.text,
-                      precio: double.parse(homebloc.precioproduct.text),
-                      imagen: null,
-                      createdAt: DateTime.now(),
-                    );
-                    homebloc.add(
-                      HomeEvent.onAddProduct(product: product),
-                    );
-                    context.pop();
-                  }
-                },
-                child: Text("Guardar Producto"),
-              )
-            ],
+                    return null;
+                  },
+                  keyboardType: TextInputType.number,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formkey.currentState!.validate()) {
+                      final product = ProductsModel(
+                        id: null,
+                        name: homebloc.nameproduct.text,
+                        description: homebloc.descriptionproduct.text,
+                        precio: double.parse(homebloc.precioproduct.text),
+                        imagen: null,
+                        createdAt: DateTime.now(),
+                      );
+                      homebloc.add(
+                        HomeEvent.onAddProduct(product: product),
+                      );
+                      context.pop();
+                    }
+                  },
+                  child: Text("Guardar Producto"),
+                )
+              ],
+            ),
           ),
         ),
       ),
