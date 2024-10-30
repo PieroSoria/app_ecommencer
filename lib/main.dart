@@ -35,19 +35,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(
-      builder: (context, state) {
-        return MaterialApp.router(
-          title: 'App Ecommencer',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-          ),
-          routerConfig: AppRoutes.configRoute(
-              state.authStatus ?? AuthStatus.authenticated),
+    return Builder(
+      builder: (context) {
+        return BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) {
+            return MaterialApp.router(
+              title: 'App Ecommencer',
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+                useMaterial3: true,
+              ),
+              routerConfig: AppRoutes.configRoute(
+                  state.authStatus ?? AuthStatus.unauthenticated),
+            );
+          },
         );
-      },
+      }
     );
   }
 }

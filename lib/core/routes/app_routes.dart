@@ -1,6 +1,8 @@
 import 'package:app_ecommencer/features/app/presentation/pages/app_page.dart';
 import 'package:app_ecommencer/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:app_ecommencer/features/auth/presentation/pages/auth_page.dart';
+import 'package:app_ecommencer/features/auth/presentation/pages/sign_in_page.dart';
+import 'package:app_ecommencer/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:app_ecommencer/features/home/presentation/bloc/home_bloc.dart';
 import 'package:app_ecommencer/features/home/presentation/pages/home_page.dart';
 import 'package:app_ecommencer/features/home/presentation/pages/register_producto.dart';
@@ -15,7 +17,11 @@ class AppRoutes {
   static const home = '/home';
   static const addproducto = 'add_products';
   static const editproducto = 'edit_products';
+
+  //auth
   static const auth = '/auth';
+  static const signin = 'sign_in';
+  static const signup = 'sign_up';
 
   static GoRouter configRoute(AuthStatus status) => GoRouter(
         initialLocation: app,
@@ -24,7 +30,7 @@ class AppRoutes {
             path: app,
             pageBuilder: (context, state) => _materialView(
               state.pageKey,
-              AppPage(),
+              const AppPage(),
             ),
             redirect: (context, state) => switch (status) {
               AuthStatus.authenticated => home,
@@ -45,7 +51,7 @@ class AppRoutes {
                   //   create: (context) => sl(),
                   // ),
                 ],
-                child: HomePage(),
+                child: const HomePage(),
               ),
             ),
             routes: [
@@ -56,7 +62,6 @@ class AppRoutes {
                   state.pageKey,
                   const RegisterProducto(),
                 ),
-                
               ),
               GoRoute(
                 path: editproducto,
@@ -74,8 +79,26 @@ class AppRoutes {
             path: auth,
             pageBuilder: (context, state) => _materialView(
               state.pageKey,
-              AuthPage(),
+              const AuthPage(),
             ),
+            routes: [
+              GoRoute(
+                path: AppRoutes.signin,
+                name: AppRoutes.signin,
+                pageBuilder: (context, state) => _materialView(
+                  state.pageKey,
+                  const SignInPage(),
+                ),
+              ),
+              GoRoute(
+                path: AppRoutes.signup,
+                name: AppRoutes.signup,
+                pageBuilder: (context, state) => _materialView(
+                  state.pageKey,
+                  const SignUpPage(),
+                ),
+              ),
+            ],
           ),
         ],
       );

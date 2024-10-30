@@ -41,7 +41,8 @@ class _HomePageState extends State<HomePage> {
                 content: Text("El producto fue eliminado"),
               ),
             );
-        } else if (state.productStatus == ProductStatus.none) {
+        }
+        if (state.productStatus == ProductStatus.none) {
           homebloc.add(HomeEvent.onGetlistProduct());
         }
 
