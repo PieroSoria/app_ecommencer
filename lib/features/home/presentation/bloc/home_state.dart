@@ -9,9 +9,9 @@ enum ProductStatus {
 }
 
 class HomeState extends Equatable {
-  final List<ProductsModel> listproduct;
+  final List<ProductsModel>? listproduct;
   final ProductStatus? productStatus;
-  const HomeState({this.listproduct = const [], this.productStatus});
+  const HomeState({this.listproduct, this.productStatus});
 
   factory HomeState.initialState() => const HomeState(
         listproduct: [],
@@ -37,5 +37,5 @@ extension HomeStateX on HomeState {
   bool get editproduct => productStatus == ProductStatus.editproduct;
   bool get deleteproduct => productStatus == ProductStatus.deleteproduct;
   bool get isloading => productStatus == ProductStatus.loading;
-  bool get listproductEmpy => listproduct.isEmpty;
+  bool get listproductEmpy => listproduct!.isEmpty;
 }

@@ -18,7 +18,6 @@ class _OnDeleteProduct implements HomeEvent {
 
   _OnDeleteProduct({required this.id});
   @override
-  // TODO: implement props
   List<Object?> get props => [id];
 
   @override

@@ -59,71 +59,79 @@ class _BodyListProductState extends State<BodyListProduct> {
 
   @override
   Widget build(BuildContext context) {
-    final homebloc = context.watch<HomeBloc>();
-
-    return BlocListener<HomeBloc, HomeState>(
-      listener: (context, state) {
-        debugPrint("asdas ${state.productStatus}");
-        if (state.productStatus == ProductStatus.none) {
-          homebloc.add(HomeEvent.onGetlistProduct());
-        }
-        if (state.deleteproduct) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              const SnackBar(
-                content: Text("El producto fue eliminado"),
-              ),
-            );
-        }
-      },
-      child: BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          if (state.listproductEmpy) {
-            return const Center(
-              child: Text("No se encontró ningún producto"),
-            );
-          }
+    final homebloc = context.read<HomeBloc>();
+    return Builder(builder: (context) {
+      return BlocListener<HomeBloc, HomeState>(
+        listener: (context, state) {
+          debugPrint("asdas ${state.productStatus}");
           if (state.isloading) {
-            return const Center(child: CircularProgressIndicator());
+            debugPrint("estado actual ${state.productStatus}");
           }
-          return ListView.builder(
-            itemCount: state.listproduct.length,
-            itemBuilder: (context, index) {
-              final data = state.listproduct[index];
-              return Card(
-                child: ListTile(
-                  onTap: () {},
-                  title: Text(data.name.toString()),
-                  subtitle: Text(data.description.toString()),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          context.goNamed(
-                            AppRoutes.editproducto,
-                            extra: data.toJson(),
-                          );
-                        },
-                        icon: const Icon(Icons.edit),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          homebloc.add(
-                            HomeEvent.onDeleteProduct(id: data.id),
-                          );
-                        },
-                        icon: const Icon(Icons.delete),
-                      ),
-                    ],
-                  ),
+          if (state.productStatus == ProductStatus.none) {
+            homebloc.add(HomeEvent.onGetlistProduct());
+          }
+          if (state.deleteproduct) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                const SnackBar(
+                  content: Text("El producto fue eliminado"),
                 ),
               );
-            },
-          );
+            homebloc.add(HomeEvent.onGetlistProduct());
+          }
         },
-      ),
-    );
+        child: BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            if (state.listproductEmpy) {
+              return const Center(
+                child: Text("No se encontró ningún producto"),
+              );
+            }
+            if (state.isloading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (!state.isloading) {
+              return ListView.builder(
+                itemCount: state.listproduct!.length,
+                itemBuilder: (context, index) {
+                  final data = state.listproduct![index];
+                  return Card(
+                    child: ListTile(
+                      onTap: () {},
+                      title: Text(data.name.toString()),
+                      subtitle: Text(data.description.toString()),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              context.goNamed(
+                                AppRoutes.editproducto,
+                                extra: data.toJson(),
+                              );
+                            },
+                            icon: const Icon(Icons.edit),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              homebloc.add(
+                                HomeEvent.onDeleteProduct(id: data.id),
+                              );
+                            },
+                            icon: const Icon(Icons.delete),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            }
+            return Text("prueba");
+          },
+        ),
+      );
+    });
   }
 }

@@ -32,8 +32,6 @@ class _RegisterProductoState extends State<RegisterProducto> {
                 content: Text("El producto fue cargado"),
               ),
             );
-          homebloc.add(HomeEvent.onGetlistProduct());
-          context.pop();
         }
       },
       child: GestureDetector(
@@ -94,6 +92,7 @@ class _RegisterProductoState extends State<RegisterProducto> {
                         homebloc.add(
                           HomeEvent.onAddProduct(product: product),
                         );
+                        context.pop();
                       }
                     },
                     child: Text("Guardar Producto"),

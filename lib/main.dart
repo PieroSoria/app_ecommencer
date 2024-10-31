@@ -43,7 +43,8 @@ class MyApp extends StatelessWidget {
               useMaterial3: true,
             ),
             routerConfig: AppRoutes.configRoute(
-                state.authStatus ?? AuthStatus.unauthenticated),
+              state.authStatus ?? AuthStatus.unauthenticated,
+            ),
           );
         },
       );

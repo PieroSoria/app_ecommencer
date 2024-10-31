@@ -42,16 +42,30 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final precioproduct = TextEditingController();
 
   void _onAddProduct(_OnAddProducto event, Emitter<HomeState> emit) async {
-    final data = await addProductoUsecase(params: event.productsModel);
-    if (data != null) {
-      nameproduct.clear();
-      descriptionproduct.clear();
-      precioproduct.clear();
-      emit(state.copyWith(productStatus: ProductStatus.addproduct));
+    try {
+      final data = await addProductoUsecase(params: event.productsModel);
+      if (data != null) {
+        emit(
+          state.copyWith(
+            productStatus: ProductStatus.loading,
+          ),
+        );
+        nameproduct.clear();
+        descriptionproduct.clear();
+        precioproduct.clear();
+
+        emit(
+          state.copyWith(
+            productStatus: ProductStatus.addproduct,
+          ),
+        );
+      }
+    } catch (e) {
+      debugPrint("el error es $e");
     }
   }
 
-  void cleantextEdit() { 
+  void cleantextEdit() {
     nameproduct.clear();
     descriptionproduct.clear();
     precioproduct.clear();
