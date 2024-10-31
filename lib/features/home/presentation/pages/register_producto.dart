@@ -25,8 +25,6 @@ class _RegisterProductoState extends State<RegisterProducto> {
     return BlocListener<HomeBloc, HomeState>(
       listener: (context, state) {
         if (state.saveProduct) {
-          
-
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
@@ -34,6 +32,8 @@ class _RegisterProductoState extends State<RegisterProducto> {
                 content: Text("El producto fue cargado"),
               ),
             );
+          homebloc.add(HomeEvent.onGetlistProduct());
+          context.pop();
         }
       },
       child: GestureDetector(
@@ -94,7 +94,6 @@ class _RegisterProductoState extends State<RegisterProducto> {
                         homebloc.add(
                           HomeEvent.onAddProduct(product: product),
                         );
-                        context.pop(product);
                       }
                     },
                     child: Text("Guardar Producto"),

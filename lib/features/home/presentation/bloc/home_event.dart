@@ -19,7 +19,7 @@ class _OnDeleteProduct implements HomeEvent {
   _OnDeleteProduct({required this.id});
   @override
   // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [id];
 
   @override
   // TODO: implement stringify
@@ -32,7 +32,7 @@ class _OnUpdateProduct implements HomeEvent {
   _OnUpdateProduct({required this.productsModel});
   @override
   // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [productsModel];
 
   @override
   // TODO: implement stringify

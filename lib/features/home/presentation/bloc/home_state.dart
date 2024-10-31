@@ -4,13 +4,14 @@ enum ProductStatus {
   addproduct,
   editproduct,
   deleteproduct,
+  loading,
   none,
 }
 
 class HomeState extends Equatable {
-  final List<ProductsModel>? listproduct;
+  final List<ProductsModel> listproduct;
   final ProductStatus? productStatus;
-  const HomeState({this.listproduct, this.productStatus});
+  const HomeState({this.listproduct = const [], this.productStatus});
 
   factory HomeState.initialState() => const HomeState(
         listproduct: [],
@@ -35,4 +36,6 @@ extension HomeStateX on HomeState {
   bool get saveProduct => productStatus == ProductStatus.addproduct;
   bool get editproduct => productStatus == ProductStatus.editproduct;
   bool get deleteproduct => productStatus == ProductStatus.deleteproduct;
+  bool get isloading => productStatus == ProductStatus.loading;
+  bool get listproductEmpy => listproduct.isEmpty;
 }

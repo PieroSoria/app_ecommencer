@@ -21,9 +21,6 @@ class BlocPorviders extends StatelessWidget {
         BlocProvider<AuthBloc>(
           create: (context) => sl()..add(AuthEvent.ongetAuthVerify()),
         ),
-        BlocProvider<HomeBloc>(
-          create: (context) => sl(),
-        ),
       ],
       child: const MyApp(),
     );
@@ -35,23 +32,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
-        return BlocBuilder<AuthBloc, AuthState>(
-          builder: (context, state) {
-            return MaterialApp.router(
-              title: 'App Ecommencer',
-              debugShowCheckedModeBanner: false,
-              theme: ThemeData(
-                colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-                useMaterial3: true,
-              ),
-              routerConfig: AppRoutes.configRoute(
-                  state.authStatus ?? AuthStatus.unauthenticated),
-            );
-          },
-        );
-      }
-    );
+    return Builder(builder: (context) {
+      return BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, state) {
+          return MaterialApp.router(
+            title: 'App Ecommencer',
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              useMaterial3: true,
+            ),
+            routerConfig: AppRoutes.configRoute(
+                state.authStatus ?? AuthStatus.unauthenticated),
+          );
+        },
+      );
+    });
   }
 }

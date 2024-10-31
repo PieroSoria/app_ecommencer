@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:app_ecommencer/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:app_ecommencer/features/auth/presentation/widget/input_custom_auth.dart';
+import 'package:app_ecommencer/features/auth/presentation/widgets/input_custom_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
