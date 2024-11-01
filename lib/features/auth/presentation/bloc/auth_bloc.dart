@@ -13,7 +13,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _onGetAuthhVerify(_OnGetAuthhVerify event, Emitter<AuthState> emit) {
-    emit(state.copyWith(authStatus: AuthStatus.unauthenticated));
+    emit(state.copyWith(authStatus: AuthStatus.authenticated));
   }
 
   final email = TextEditingController();

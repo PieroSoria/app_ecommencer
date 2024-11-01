@@ -45,20 +45,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     try {
       final data = await addProductoUsecase(params: event.productsModel);
       if (data != null) {
-        emit(
-          state.copyWith(
-            productStatus: ProductStatus.loading,
-          ),
-        );
-        nameproduct.clear();
-        descriptionproduct.clear();
-        precioproduct.clear();
+        // Limpiar los campos
+        cleantextEdit();
 
-        emit(
-          state.copyWith(
-            productStatus: ProductStatus.addproduct,
-          ),
-        );
+        // Emitir el nuevo estado
+        emit(state.copyWith(productStatus: ProductStatus.addproduct));
+
+        // Obtener la lista actualizada de productos
+        final listData = await getListProductUsecase();
+        emit(state.copyWith(
+            listproduct: listData, productStatus: ProductStatus.none));
       }
     } catch (e) {
       debugPrint("el error es $e");
@@ -85,6 +81,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     final delete = await deleteProductUsecase(params: event.id);
     if (delete) {
       emit(state.copyWith(productStatus: ProductStatus.deleteproduct));
+
+      // Obtener la lista actualizada
+      final listData = await getListProductUsecase();
+      emit(state.copyWith(
+          listproduct: listData, productStatus: ProductStatus.none));
     }
   }
 }

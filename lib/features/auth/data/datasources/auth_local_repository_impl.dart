@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:sqflite_common/sqlite_api.dart';
 
 class AuthLocalRepositoryImpl implements AuthLocalRepositoryInterface {
   @override
@@ -92,11 +91,11 @@ class AuthLocalRepositoryImpl implements AuthLocalRepositoryInterface {
   @override
   AuthStatus convertSharedEnum(String authStatus) {
     return switch (authStatus) {
-      "AuthStatus.authenticated" => AuthStatus.authenticated,
-      "AuthStatus.unauthenticated" => AuthStatus.unauthenticated,
-      "AuthStatus.authenticating" => AuthStatus.authenticating,
-      "AuthStatus.authenticatedFailed" => AuthStatus.authenticatedFailed,
-      "AuthStatus.logOut" => AuthStatus.logOut,
+      "authenticated" => AuthStatus.authenticated,
+      "unauthenticated" => AuthStatus.unauthenticated,
+      "authenticating" => AuthStatus.authenticating,
+      "authenticatedFailed" => AuthStatus.authenticatedFailed,
+      "logOut" => AuthStatus.logOut,
       _ => AuthStatus.unauthenticated,
     };
   }

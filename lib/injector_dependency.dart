@@ -40,10 +40,10 @@ Future<void> injectorDependency() async {
   );
 
   //bloc
-  sl.registerFactory<AppBloc>(
+  sl.registerLazySingleton<AppBloc>(
     () => AppBloc(),
   );
-  sl.registerFactory<AuthBloc>(
+  sl.registerLazySingleton<AuthBloc>(
     () => AuthBloc(),
   );
   sl.registerFactory<HomeBloc>(

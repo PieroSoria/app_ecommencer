@@ -32,6 +32,7 @@ class _RegisterProductoState extends State<RegisterProducto> {
                 content: Text("El producto fue cargado"),
               ),
             );
+          context.pop();
         }
       },
       child: GestureDetector(
@@ -73,7 +74,6 @@ class _RegisterProductoState extends State<RegisterProducto> {
                       if (value != null && value.isEmpty) {
                         return "No puede ser vacio";
                       }
-
                       return null;
                     },
                     keyboardType: TextInputType.number,
@@ -89,14 +89,11 @@ class _RegisterProductoState extends State<RegisterProducto> {
                           imagen: null,
                           createdAt: DateTime.now(),
                         );
-                        homebloc.add(
-                          HomeEvent.onAddProduct(product: product),
-                        );
-                        context.pop();
+                        homebloc.add(HomeEvent.onAddProduct(product: product));
                       }
                     },
-                    child: Text("Guardar Producto"),
-                  )
+                    child: const Text("Guardar Producto"),
+                  ),
                 ],
               ),
             ),

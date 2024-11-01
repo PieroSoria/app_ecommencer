@@ -42,18 +42,7 @@ class AppRoutes {
             path: home,
             pageBuilder: (context, state) => _materialView(
               state.pageKey,
-              MultiBlocProvider(
-                providers: [
-                  BlocProvider<HomeBloc>(
-                    lazy: false,
-                    create: (context) => sl(),
-                  ),
-                  // BlocProvider<CategoryBloc>(
-                  //   create: (context) => sl(),
-                  // ),
-                ],
-                child: const HomePage(),
-              ),
+              const HomePage(),
             ),
             routes: [
               GoRoute(
@@ -61,11 +50,8 @@ class AppRoutes {
                 name: addproducto,
                 pageBuilder: (context, state) => _materialView(
                   state.pageKey,
-                  BlocProvider<HomeBloc>(
-                    lazy: false,
-                    create: (context) => sl(),
-                    child: const RegisterProducto(),
-                  ),
+                  const RegisterProducto(),
+                  // const RegisterProducto(),
                 ),
               ),
               GoRoute(

@@ -21,6 +21,9 @@ class BlocPorviders extends StatelessWidget {
         BlocProvider<AuthBloc>(
           create: (context) => sl()..add(AuthEvent.ongetAuthVerify()),
         ),
+        BlocProvider<HomeBloc>(
+          create: (context) => sl(),
+        )
       ],
       child: const MyApp(),
     );
