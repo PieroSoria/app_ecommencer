@@ -8,7 +8,7 @@ class AuthRepositoryImpl implements AuthRepositoryInterface {
 
   AuthRepositoryImpl({required this.authLocalRepositoryInterface});
   @override
-  Future<bool> authLoginWithEmail({UserEntity? userEntity}) async {
+  Future<String?> authLoginWithEmail({UserEntity? userEntity}) async {
     return await authLocalRepositoryInterface.loginLocalUser(
       userEntity: userEntity,
     );

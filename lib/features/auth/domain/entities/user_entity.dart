@@ -5,7 +5,7 @@ class UserEntity {
   final String email;
   final String password;
   final String photoUrl;
-  final String token;
+  // final String token;
   final String fcmToken;
 
   UserEntity(
@@ -15,6 +15,6 @@ class UserEntity {
       required this.email,
       required this.password,
       required this.photoUrl,
-      required this.token,
+      // required this.token,
       required this.fcmToken});
 }

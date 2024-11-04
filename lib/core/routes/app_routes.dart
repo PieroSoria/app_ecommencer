@@ -35,7 +35,8 @@ class AppRoutes {
             redirect: (context, state) => switch (status) {
               AuthStatus.authenticated => home,
               AuthStatus.unauthenticated => auth,
-              _ => app,
+              AuthStatus.authcreateUser => auth,
+              _ => null,
             },
           ),
           GoRoute(
@@ -80,6 +81,10 @@ class AppRoutes {
                   state.pageKey,
                   const SignInPage(),
                 ),
+                redirect: (context, state) => switch (status) {
+                  AuthStatus.authenticated => home,
+                  _ => null,
+                },
               ),
               GoRoute(
                 path: AppRoutes.signup,

@@ -5,12 +5,14 @@ class InputCustomAuth extends StatefulWidget {
   final String title;
   final bool isPassword;
   final Widget? icons;
+  final String? Function(String?)? validator;
   const InputCustomAuth({
     super.key,
     required this.controller,
     required this.title,
     this.isPassword = false,
     this.icons,
+    this.validator,
   });
 
   @override
@@ -26,6 +28,12 @@ class _InputCustomAuthState extends State<InputCustomAuth> {
     super.initState();
   }
 
+  // @override
+  // void dispose() {
+  //   widget.controller.dispose();
+  //   super.dispose();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -33,6 +41,7 @@ class _InputCustomAuthState extends State<InputCustomAuth> {
       child: TextFormField(
         controller: widget.controller,
         obscureText: oscureText,
+        validator: widget.validator,
         cursorColor: Colors.grey,
         decoration: InputDecoration(
           labelText: widget.title,

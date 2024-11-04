@@ -5,9 +5,8 @@ import 'package:sqflite/sqflite.dart';
 abstract class AuthLocalRepositoryInterface {
   Future<Database> initialSqfliteAuth();
   Future<bool> registerLocalUser({UserEntity? userEntity});
-  Future<bool> loginLocalUser({UserEntity? userEntity});
-  String hashPassword(String password);
+  Future<String?> loginLocalUser({UserEntity? userEntity});
+  Future<UserEntity?> getUserWithEmail({String email});
   Future<AuthStatus> getAuthStatus();
   AuthStatus convertSharedEnum(String authStatus);
-   
 }

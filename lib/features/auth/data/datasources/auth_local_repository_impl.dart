@@ -27,7 +27,6 @@ class AuthLocalRepositoryImpl implements AuthLocalRepositoryInterface {
     email TEXT,
     password TEXT,
     photo_url TEXT,
-    token TEXT,
     fcm_token TEXT
   )
 ''');
@@ -38,20 +37,23 @@ class AuthLocalRepositoryImpl implements AuthLocalRepositoryInterface {
   }
 
   @override
-  Future<bool> loginLocalUser({UserEntity? userEntity}) async {
+  Future<String?> loginLocalUser({UserEntity? userEntity}) async {
     final mydb = await initialSqfliteAuth();
     final body = UserModel.fromEntity(userEntity!);
     try {
-      final passwordCrip = hashPassword(body.password);
+      final passwordCrip = UserModel.hashPassword(body.password);
       final data = await mydb.query(
         'users',
         where: 'email = ? AND password = ?',
         whereArgs: [body.email, passwordCrip],
-      );
-      return data.isNotEmpty;
+      ).then((result) => result.first);
+
+      return data['email'] != null
+          ? UserModel.generateToken(data['email'].toString())
+          : null;
     } catch (e) {
       debugPrint("el error en el login es $e");
-      return false;
+      return null;
     }
   }
 
@@ -60,25 +62,14 @@ class AuthLocalRepositoryImpl implements AuthLocalRepositoryInterface {
     final mydb = await initialSqfliteAuth();
     try {
       final body = UserModel.fromEntity(userEntity!);
-      final bodymodi = body.toJson().update(
-        "password",
-        (value) {
-          final crip = hashPassword(value.toString());
-          return crip;
-        },
-      );
+      final bodymodi = body.toJson();
+
       final data = await mydb.insert('users', bodymodi);
       return data > 0;
     } catch (e) {
       debugPrint("El error a registrar el user => $e");
       return false;
     }
-  }
-
-  @override
-  String hashPassword(String password) {
-    final bytes = utf8.encode(password);
-    return sha256.convert(bytes).toString();
   }
 
   @override
@@ -98,5 +89,23 @@ class AuthLocalRepositoryImpl implements AuthLocalRepositoryInterface {
       "logOut" => AuthStatus.logOut,
       _ => AuthStatus.unauthenticated,
     };
+  }
+
+  @override
+  Future<UserEntity?> getUserWithEmail({String? email}) async {
+    final mydb = await initialSqfliteAuth();
+    try {
+      final user = await mydb
+          .query(
+            'users',
+            where: 'email = ?',
+            whereArgs: [email],
+          )
+          .then((data) => data.first)
+          .then((value) => UserModel.fromJson(value));
+      return user;
+    } catch (e) {
+      return null;
+    }
   }
 }

@@ -1,4 +1,10 @@
 import 'package:app_ecommencer/features/app/presentation/bloc/app_bloc.dart';
+import 'package:app_ecommencer/features/auth/data/datasources/auth_local_repository_impl.dart';
+import 'package:app_ecommencer/features/auth/data/datasources/auth_local_repository_interface.dart';
+import 'package:app_ecommencer/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:app_ecommencer/features/auth/domain/repositories/auth_repository_interface.dart';
+import 'package:app_ecommencer/features/auth/domain/usecases/token/get_token_usecase.dart';
+import 'package:app_ecommencer/features/auth/domain/usecases/user/save_user_usecase.dart';
 import 'package:app_ecommencer/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:app_ecommencer/features/home/data/repositories/products_repository_impl.dart';
 import 'package:app_ecommencer/features/home/domain/repositories/products_repository.dart';
@@ -12,7 +18,17 @@ import 'package:get_it/get_it.dart';
 final sl = GetIt.instance;
 
 Future<void> injectorDependency() async {
+  //services
+  sl.registerLazySingleton<AuthLocalRepositoryInterface>(
+    () => AuthLocalRepositoryImpl(),
+  );
+
   //repository
+  sl.registerLazySingleton<AuthRepositoryInterface>(
+    () => AuthRepositoryImpl(
+      authLocalRepositoryInterface: sl(),
+    ),
+  );
   sl.registerLazySingleton<ProductsRepository>(
     () => ProductsRepositoryImpl(),
   );
@@ -38,13 +54,26 @@ Future<void> injectorDependency() async {
       productsRepository: sl(),
     ),
   );
+  sl.registerLazySingleton<GetTokenUsecase>(
+    () => GetTokenUsecase(
+      authRepositoryInterface: sl(),
+    ),
+  );
+  sl.registerLazySingleton<SaveUserUsecase>(
+    () => SaveUserUsecase(
+      authRepositoryInterface: sl(),
+    ),
+  );
 
   //bloc
-  sl.registerLazySingleton<AppBloc>(
+  sl.registerFactory<AppBloc>(
     () => AppBloc(),
   );
-  sl.registerLazySingleton<AuthBloc>(
-    () => AuthBloc(),
+  sl.registerFactory<AuthBloc>(
+    () => AuthBloc(
+      sl(),
+      sl(),
+    ),
   );
   sl.registerFactory<HomeBloc>(
     () => HomeBloc(
