@@ -1,3 +1,4 @@
+import 'package:app_ecommencer/features/auth/domain/entities/user_entity.dart';
 import 'package:app_ecommencer/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:app_ecommencer/features/auth/presentation/widgets/input_custom_auth.dart';
 import 'package:app_ecommencer/features/auth/presentation/widgets/login_options_widget.dart';
@@ -91,7 +92,21 @@ class _SignInPageState extends State<SignInPage> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              authbloc.add(
+                                AuthEvent.onLoginWithEmail(
+                                  userEntity: UserEntity(
+                                    id: 0,
+                                    name: "",
+                                    lastname: "",
+                                    email: authbloc.email.text,
+                                    password: authbloc.password.text,
+                                    photoUrl: "",
+                                    fcmToken: "",
+                                  ),
+                                ),
+                              );
+                            },
                             child: Container(
                               margin: const EdgeInsets.only(top: 50),
                               width: MediaQuery.of(context).size.width,

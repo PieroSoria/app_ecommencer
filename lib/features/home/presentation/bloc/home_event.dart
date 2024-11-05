@@ -8,9 +8,20 @@ abstract class HomeEvent extends Equatable {
   factory HomeEvent.onDeleteProduct({int? id}) => _OnDeleteProduct(id: id);
   factory HomeEvent.onAddProduct({ProductsModel? product}) =>
       _OnAddProducto(productsModel: product);
+  factory HomeEvent.onSelectImage() => _OnSelectImage();
 
   @override
   List<Object?> get props => [];
+}
+
+class _OnSelectImage implements HomeEvent {
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+
+  @override
+  // TODO: implement stringify
+  bool? get stringify => throw UnimplementedError();
 }
 
 class _OnDeleteProduct implements HomeEvent {

@@ -10,6 +10,12 @@ class AppPage extends StatefulWidget {
 class _AppPageState extends State<AppPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Scaffold(
+      body: Center(
+        child: FlutterLogo(
+          size: 70,
+        ),
+      ),
+    );
   }
 }

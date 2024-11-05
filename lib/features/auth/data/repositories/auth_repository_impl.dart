@@ -22,8 +22,12 @@ class AuthRepositoryImpl implements AuthRepositoryInterface {
   }
 
   @override
-  Future<AuthStatus> getverifyAuthStatus() {
-    // TODO: implement getverifyAuthStatus
-    throw UnimplementedError();
+  Future<AuthStatus> getverifyAuthStatus() async {
+    return await authLocalRepositoryInterface.getAuthStatus();
+  }
+
+  @override
+  Future<void> saveAuthStatus({required String authStatus}) async {
+    await authLocalRepositoryInterface.saveAuthStatus(authStatus: authStatus);
   }
 }

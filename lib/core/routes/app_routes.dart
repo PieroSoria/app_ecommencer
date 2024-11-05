@@ -36,6 +36,8 @@ class AppRoutes {
               AuthStatus.authenticated => home,
               AuthStatus.unauthenticated => auth,
               AuthStatus.authcreateUser => auth,
+              AuthStatus.authenticatedFailed => auth,
+              AuthStatus.authenticating => app,
               _ => null,
             },
           ),
@@ -73,6 +75,10 @@ class AppRoutes {
               state.pageKey,
               const AuthPage(),
             ),
+            // redirect: (context, state) => switch (status) {
+            //   AuthStatus.authenticatedFailed => signin,
+            //   _ => null,
+            // },
             routes: [
               GoRoute(
                 path: AppRoutes.signin,

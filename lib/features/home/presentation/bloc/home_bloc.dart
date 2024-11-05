@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:app_ecommencer/features/home/data/models/products_model.dart';
 import 'package:app_ecommencer/features/home/domain/usecases/add_producto_usecase.dart';
@@ -8,6 +9,7 @@ import 'package:app_ecommencer/features/home/domain/usecases/update_producto_use
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -27,6 +29,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<_OnAddProducto>(_onAddProduct);
     on<_OnUpdateProduct>(_onUpdateProduct);
     on<_OnDeleteProduct>(_onDeleteProduct);
+    on<_OnSelectImage>(_onSelectImage);
   }
 
   void _ongetlistProduct(
@@ -45,13 +48,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     try {
       final data = await addProductoUsecase(params: event.productsModel);
       if (data != null) {
-        // Limpiar los campos
         cleantextEdit();
-
-        // Emitir el nuevo estado
         emit(state.copyWith(productStatus: ProductStatus.addproduct));
-
-        // Obtener la lista actualizada de productos
         final listData = await getListProductUsecase();
         emit(state.copyWith(
             listproduct: listData, productStatus: ProductStatus.none));
@@ -61,10 +59,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
+  File? imagen;
+
   void cleantextEdit() {
     nameproduct.clear();
     descriptionproduct.clear();
     precioproduct.clear();
+    imagen = null;
   }
 
   void _onUpdateProduct(
@@ -86,6 +87,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final listData = await getListProductUsecase();
       emit(state.copyWith(
           listproduct: listData, productStatus: ProductStatus.none));
+    }
+  }
+
+  void _onSelectImage(_OnSelectImage event, Emitter<HomeState> emit) async {
+    final data = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (data != null) {
+      final result = File(data.path);
+      imagen = File(data.path);
+      emit(state.copyWith(imageurl: result));
     }
   }
 }

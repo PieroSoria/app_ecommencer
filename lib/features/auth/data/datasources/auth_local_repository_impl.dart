@@ -12,33 +12,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AuthLocalRepositoryImpl implements AuthLocalRepositoryInterface {
-  @override
-  Future<Database> initialSqfliteAuth() async {
-    final path = await getDatabasesPath();
-    final pathio = join(path, 'product.db');
-    final mydb = await openDatabase(
-      pathio,
-      onCreate: (db, version) {
-        db.execute('''
-  CREATE TABLE users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT,
-    lastname TEXT,
-    email TEXT,
-    password TEXT,
-    photo_url TEXT,
-    fcm_token TEXT
-  )
-''');
-      },
-      version: 1,
-    );
-    return mydb;
-  }
+  final Database mydb;
+
+  AuthLocalRepositoryImpl({required this.mydb});
 
   @override
   Future<String?> loginLocalUser({UserEntity? userEntity}) async {
-    final mydb = await initialSqfliteAuth();
     final body = UserModel.fromEntity(userEntity!);
     try {
       final passwordCrip = UserModel.hashPassword(body.password);
@@ -59,7 +38,6 @@ class AuthLocalRepositoryImpl implements AuthLocalRepositoryInterface {
 
   @override
   Future<bool> registerLocalUser({UserEntity? userEntity}) async {
-    final mydb = await initialSqfliteAuth();
     try {
       final body = UserModel.fromEntity(userEntity!);
       final bodymodi = body.toJson();
@@ -93,7 +71,6 @@ class AuthLocalRepositoryImpl implements AuthLocalRepositoryInterface {
 
   @override
   Future<UserEntity?> getUserWithEmail({String? email}) async {
-    final mydb = await initialSqfliteAuth();
     try {
       final user = await mydb
           .query(
@@ -107,5 +84,11 @@ class AuthLocalRepositoryImpl implements AuthLocalRepositoryInterface {
     } catch (e) {
       return null;
     }
+  }
+
+  @override
+  Future<void> saveAuthStatus({required String authStatus}) async {
+    final pref = await SharedPreferences.getInstance();
+    await pref.setString(AppConstants.authstatus, authStatus);
   }
 }
