@@ -21,15 +21,16 @@ class RegisterProducto extends StatefulWidget {
 
 class _RegisterProductoState extends State<RegisterProducto> {
   final _formkey = GlobalKey<FormState>();
-
+  bool isFormCompleted = false;
   @override
   Widget build(BuildContext context) {
     final homebloc = context.read<HomeBloc>();
     return PopScope(
-      canPop: true,
       onPopInvokedWithResult: (didPop, result) {
-        homebloc.cleantextEdit();
-        context.pop();
+        if (!isFormCompleted) {
+          homebloc.cleantextEdit();
+          context.pop();
+        }
       },
       child: BlocListener<HomeBloc, HomeState>(
         listener: (context, state) {
@@ -124,6 +125,7 @@ class _RegisterProductoState extends State<RegisterProducto> {
                           );
                           homebloc
                               .add(HomeEvent.onAddProduct(product: product));
+                          isFormCompleted = true;
                         }
                       },
                       child: const Text("Guardar Producto"),
